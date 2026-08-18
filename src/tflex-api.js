@@ -1,6 +1,6 @@
 import path from "node:path";
 
-export const DEFAULT_API_BASE_URL = "https://krickmanc.github.io/T-FLEX-CAD-17-API/";
+export const DEFAULT_API_BASE_URL = "https://raw.githubusercontent.com/KrickmanC/T-FLEX-CAD-17-API/main/";
 
 const DEFAULT_PATHS = Object.freeze({
   manifest: "llm/manifest.json",

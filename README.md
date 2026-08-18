@@ -10,7 +10,7 @@ Read-only Model Context Protocol server over the canonical [`T-FLEX-CAD-17-API`]
 flowchart LR
     C[MCP client / AI agent]
     M[T-FLEX-CAD-17-MCP\nstdio or Streamable HTTP]
-    A[T-FLEX-CAD-17-API\nGitHub Pages: JSONL, Markdown, XML]
+    A[T-FLEX-CAD-17-API\nGitHub raw content: JSONL, Markdown, XML]
     P[T-FLEX-CAD-17-MCP Pages\ndocs and diagnostics]
 
     C -->|MCP tools| M
@@ -37,7 +37,7 @@ All tools are declared read-only and idempotent.
 ## Requirements
 
 - Node.js 20.11 or newer; CI uses Node.js 22.
-- Network access to the static API layer: `https://krickmanc.github.io/T-FLEX-CAD-17-API/`.
+- Network access to the static API layer: `https://raw.githubusercontent.com/KrickmanC/T-FLEX-CAD-17-API/main/`.
 
 ## Local stdio server
 
@@ -55,7 +55,7 @@ Example MCP client configuration:
       "command": "node",
       "args": ["/absolute/path/T-FLEX-CAD-17-MCP/src/stdio.js"],
       "env": {
-        "TFLEX_API_BASE_URL": "https://krickmanc.github.io/T-FLEX-CAD-17-API/"
+        "TFLEX_API_BASE_URL": "https://raw.githubusercontent.com/KrickmanC/T-FLEX-CAD-17-API/main/"
       }
     }
   }
@@ -83,7 +83,7 @@ The HTTP implementation maintains MCP sessions in process memory. For horizontal
 ```bash
 docker build -t t-flex-cad-17-mcp .
 docker run --rm -p 3000:3000 \
-  -e TFLEX_API_BASE_URL=https://krickmanc.github.io/T-FLEX-CAD-17-API/ \
+  -e TFLEX_API_BASE_URL=https://raw.githubusercontent.com/KrickmanC/T-FLEX-CAD-17-API/main/ \
   t-flex-cad-17-mcp
 ```
 
@@ -91,7 +91,7 @@ docker run --rm -p 3000:3000 \
 
 | Variable | Default | Meaning |
 |---|---:|---|
-| `TFLEX_API_BASE_URL` | API Pages URL | Canonical upstream base URL. |
+| `TFLEX_API_BASE_URL` | Raw GitHub content URL | Canonical upstream base URL. |
 | `TFLEX_FETCH_TIMEOUT_MS` | `45000` | Upstream request timeout. |
 | `TFLEX_CACHE_TTL_MS` | `300000` | In-memory dataset cache lifetime. |
 | `TFLEX_MAX_DATASET_BYTES` | `67108864` | Maximum index response size. |

@@ -1,4 +1,4 @@
-const API_BASE = "https://krickmanc.github.io/T-FLEX-CAD-17-API/";
+const API_BASE = "https://raw.githubusercontent.com/KrickmanC/T-FLEX-CAD-17-API/main/";
 const format = new Intl.NumberFormat("ru-RU");
 
 const byId = id => document.getElementById(id);

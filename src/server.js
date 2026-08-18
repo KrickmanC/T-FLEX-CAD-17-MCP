@@ -132,7 +132,7 @@ export function createMcpServer(options = {}) {
       title: "Read a T-FLEX documentation artifact",
       description: "Read an allowlisted Markdown, CHM mirror, XML API, graph or manifest file by repository-relative path.",
       inputSchema: {
-        relative_path: z.string().min(1).describe("Path below the T-FLEX-CAD-17-API Pages base URL")
+        relative_path: z.string().min(1).describe("Path below the T-FLEX-CAD-17-API static content base URL")
       },
       annotations: readOnlyAnnotations
     },
