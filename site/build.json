@@ -1,0 +1,7 @@
+{
+  "service": "t-flex-cad-17-mcp",
+  "version": "1.0.0",
+  "deployment": "github-pages",
+  "source_branch": "main",
+  "verification_date": "2026-08-18"
+}
