@@ -2,6 +2,8 @@
 
 Read-only Model Context Protocol server over the canonical [`T-FLEX-CAD-17-API`](https://github.com/KrickmanC/T-FLEX-CAD-17-API) knowledge/API layer.
 
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https%3A%2F%2Fgithub.com%2FKrickmanC%2FT-FLEX-CAD-17-MCP)
+
 > GitHub Pages publishes only the static project dashboard. The executable MCP runtime is the Node.js/Docker service from this repository and must run on a compute host.
 
 ## Architecture
