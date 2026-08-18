@@ -1,4 +1,4 @@
-const API_BASE = "https://krickmanc.github.io/T-FLEX-CAD-17-API/";
+const API_BASE = "https://raw.githubusercontent.com/KrickmanC/T-FLEX-CAD-17-API/main/";
 const format = new Intl.NumberFormat("ru-RU");
 
 const byId = id => document.getElementById(id);
@@ -27,18 +27,30 @@ async function refreshStatus() {
       getJson("llm/manifest.json"),
       getJson("graph/manifest.json")
     ]);
+    const assemblies = manifest.counts?.assemblies
+      ?? graph.counts?.assemblies
+      ?? graph.assembly_count
+      ?? graph.counters?.assemblies
+      ?? (manifest.assemblies && typeof manifest.assemblies === "object" ? Object.keys(manifest.assemblies).length : 0);
+    const types = manifest.counts?.types ?? manifest.type_page_count ?? graph.counts?.types ?? graph.counters?.types;
+    const symbols = manifest.counts?.symbols ?? manifest.symbol_count;
+    const topics = manifest.counts?.chm_pages ?? manifest.chm_page_count;
+    const nodes = graph.counts?.nodes ?? graph.node_count;
+    const edges = graph.counts?.edges ?? graph.edge_count;
+
     setStatus("ok", "Доступен", API_BASE);
-    byId("dataset").textContent = manifest.dataset || "T-FLEX CAD 17";
-    const date = manifest.generated_at ? new Date(manifest.generated_at) : null;
+    byId("dataset").textContent = manifest.dataset || manifest.source || manifest.project || "T-FLEX CAD 17";
+    const generatedAt = manifest.generated_at || graph.generated_at;
+    const date = generatedAt ? new Date(generatedAt) : null;
     byId("generated").textContent = date && !Number.isNaN(date.valueOf())
       ? `Собрано: ${date.toLocaleString("ru-RU")}`
       : "Дата сборки не указана";
-    setMetric("assemblies", manifest.counts?.assemblies);
-    setMetric("types", manifest.counts?.types);
-    setMetric("symbols", manifest.counts?.symbols);
-    setMetric("topics", manifest.counts?.chm_pages);
-    setMetric("nodes", graph.counts?.nodes);
-    setMetric("edges", graph.counts?.edges);
+    setMetric("assemblies", assemblies);
+    setMetric("types", types);
+    setMetric("symbols", symbols);
+    setMetric("topics", topics);
+    setMetric("nodes", nodes);
+    setMetric("edges", edges);
   } catch (error) {
     setStatus("error", "Недоступен", error instanceof Error ? error.message : String(error));
   }
