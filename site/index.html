@@ -50,21 +50,21 @@
 
       <div class="status-grid">
         <article class="status-card">
-          <span class="status-label">Knowledge/API layer</span>
+          <span class="status-label" data-i18n="statusLayer">Knowledge/API layer</span>
           <div class="status-line"><span id="api-dot" class="dot pending"></span><strong id="api-status" data-i18n="checking">Checking…</strong></div>
           <p id="api-detail" data-i18n="loadingManifest">Loading manifest.json</p>
         </article>
         <article class="status-card">
-          <span class="status-label">Documentation dataset</span>
+          <span class="status-label" data-i18n="datasetLabel">Documentation dataset</span>
           <strong id="dataset">—</strong>
           <p id="generated">—</p>
         </article>
-        <article class="status-card metric"><span>Assemblies</span><strong id="assemblies">—</strong></article>
-        <article class="status-card metric"><span>Types</span><strong id="types">—</strong></article>
-        <article class="status-card metric"><span>Symbols</span><strong id="symbols">—</strong></article>
-        <article class="status-card metric"><span>CHM topics</span><strong id="topics">—</strong></article>
-        <article class="status-card metric"><span>Graph nodes</span><strong id="nodes">—</strong></article>
-        <article class="status-card metric"><span>Graph edges</span><strong id="edges">—</strong></article>
+        <article class="status-card metric"><span data-i18n="assemblies">Assemblies</span><strong id="assemblies">—</strong></article>
+        <article class="status-card metric"><span data-i18n="types">Types</span><strong id="types">—</strong></article>
+        <article class="status-card metric"><span data-i18n="symbols">Symbols</span><strong id="symbols">—</strong></article>
+        <article class="status-card metric"><span data-i18n="topics">CHM topics</span><strong id="topics">—</strong></article>
+        <article class="status-card metric"><span data-i18n="graphNodes">Graph nodes</span><strong id="nodes">—</strong></article>
+        <article class="status-card metric"><span data-i18n="graphEdges">Graph edges</span><strong id="edges">—</strong></article>
       </div>
     </section>
 
@@ -112,7 +112,7 @@ docker run --rm -p 3000:3000 t-flex-cad-17-mcp</code></pre>
 
   <footer>
     <span>T-FLEX CAD 17 MCP</span>
-    <span>Read-only adapter over T-FLEX-CAD-17-API</span>
+    <span data-i18n="footerAdapter">Read-only adapter over T-FLEX-CAD-17-API</span>
   </footer>
 </body>
 </html>
