@@ -1,6 +1,6 @@
 import path from "node:path";
 
-export const DEFAULT_API_BASE_URL = "https://krickmanc.github.io/T-FLEX-CAD-17-API/";
+export const DEFAULT_API_BASE_URL = "https://raw.githubusercontent.com/KrickmanC/T-FLEX-CAD-17-API/main/";
 
 const DEFAULT_PATHS = Object.freeze({
   manifest: "llm/manifest.json",
@@ -53,7 +53,7 @@ export function loadConfig(env = process.env) {
     maxDocumentBytes: positiveInteger(env.TFLEX_MAX_DOCUMENT_BYTES, 2 * 1024 * 1024, "TFLEX_MAX_DOCUMENT_BYTES"),
     maxToolOutputChars: positiveInteger(env.MCP_MAX_TOOL_OUTPUT_CHARS, 120_000, "MCP_MAX_TOOL_OUTPUT_CHARS"),
     host: env.MCP_HOST || "0.0.0.0",
-    port: positiveInteger(env.MCP_PORT, 3000, "MCP_PORT"),
+    port: positiveInteger(env.MCP_PORT || env.PORT, 3000, "MCP_PORT"),
     allowedOrigins: (env.MCP_ALLOWED_ORIGINS || "*")
       .split(",")
       .map(value => value.trim())
