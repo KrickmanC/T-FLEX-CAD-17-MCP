@@ -1,0 +1,38 @@
+name: MCP CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install dependencies
+        run: npm install --ignore-scripts --no-audit --no-fund
+
+      - name: Static syntax check
+        run: npm run check
+
+      - name: MCP protocol tests
+        run: npm test
+
+      - name: Live knowledge/API layer smoke test
+        run: npm run smoke:live
+
+      - name: Build runtime container
+        run: docker build -t t-flex-cad-17-mcp:${{ github.sha }} .
