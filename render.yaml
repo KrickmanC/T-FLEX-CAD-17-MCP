@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: t-flex-cad-17-mcp
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /healthz
+    autoDeploy: true
+    envVars:
+      - key: TFLEX_API_BASE_URL
+        value: https://raw.githubusercontent.com/KrickmanC/T-FLEX-CAD-17-API/main/
+      - key: MCP_HOST
+        value: 0.0.0.0
+      - key: MCP_ALLOWED_ORIGINS
+        value: "*"
