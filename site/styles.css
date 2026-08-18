@@ -38,9 +38,39 @@ code, pre { font-family: "Cascadia Code", "SFMono-Regular", Consolas, monospace;
 }
 .brand { text-decoration: none; font-weight: 780; letter-spacing: -.02em; }
 .brand span { color: var(--accent); }
+.topbar-actions { display: flex; align-items: center; gap: 28px; }
 nav { display: flex; gap: 24px; }
 nav a { color: var(--muted); text-decoration: none; font-size: .92rem; }
 nav a:hover { color: var(--text); }
+.language-switch {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  background: rgba(16,21,29,.82);
+}
+.language-option {
+  min-width: 38px;
+  border: 0;
+  border-radius: 6px;
+  padding: 6px 9px;
+  background: transparent;
+  color: var(--muted);
+  font: inherit;
+  font-size: .76rem;
+  font-weight: 800;
+  letter-spacing: .06em;
+  cursor: pointer;
+  transition: background .15s ease, color .15s ease, box-shadow .15s ease;
+}
+.language-option:hover { color: var(--text); }
+.language-option.active {
+  background: var(--panel-2);
+  color: var(--accent);
+  box-shadow: inset 0 0 0 1px rgba(112,215,255,.22);
+}
+.language-option:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
 main, footer { width: min(var(--max), calc(100% - 40px)); margin-inline: auto; }
 .hero { padding: 92px 0 72px; }
@@ -96,6 +126,7 @@ footer { border-top: 1px solid rgba(255,255,255,.08); padding: 28px 0 42px; disp
 
 @media (max-width: 850px) {
   nav { display: none; }
+  .topbar-actions { gap: 12px; }
   .architecture { grid-template-columns: 1fr; }
   .arrow { transform: rotate(90deg); }
   .status-grid, .tool-grid, .split { grid-template-columns: 1fr; }
@@ -108,4 +139,5 @@ footer { border-top: 1px solid rgba(255,255,255,.08); padding: 28px 0 42px; disp
   .hero { padding-top: 64px; }
   h1 { font-size: 2.65rem; }
   .section-heading, footer, .input-row { align-items: stretch; flex-direction: column; }
+  .language-option { min-width: 34px; padding-inline: 7px; }
 }
