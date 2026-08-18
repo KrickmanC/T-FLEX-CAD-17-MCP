@@ -19,6 +19,38 @@ function originAllowed(origin, allowedOrigins) {
   return !origin || allowedOrigins.includes("*") || allowedOrigins.includes(origin);
 }
 
+function normalizedRuntimeSummary(manifest, graphManifest) {
+  const assemblies = manifest.counts?.assemblies
+    ?? graphManifest.counts?.assemblies
+    ?? graphManifest.assembly_count
+    ?? graphManifest.counters?.assemblies
+    ?? (manifest.assemblies && typeof manifest.assemblies === "object" ? Object.keys(manifest.assemblies).length : 0);
+  const types = manifest.counts?.types
+    ?? manifest.type_page_count
+    ?? graphManifest.counts?.types
+    ?? graphManifest.counters?.types
+    ?? 0;
+  const symbols = manifest.counts?.symbols ?? manifest.symbol_count ?? 0;
+  const chmPages = manifest.counts?.chm_pages ?? manifest.chm_page_count ?? 0;
+  const nodes = graphManifest.counts?.nodes ?? graphManifest.node_count ?? 0;
+  const edges = graphManifest.counts?.edges ?? graphManifest.edge_count ?? 0;
+
+  return {
+    dataset: manifest.dataset ?? manifest.source ?? manifest.project ?? "T-FLEX CAD 17 API",
+    generated_at: manifest.generated_at ?? graphManifest.generated_at ?? null,
+    counts: {
+      assemblies: Number(assemblies) || 0,
+      types: Number(types) || 0,
+      symbols: Number(symbols) || 0,
+      chm_pages: Number(chmPages) || 0
+    },
+    graph_counts: {
+      nodes: Number(nodes) || 0,
+      edges: Number(edges) || 0
+    }
+  };
+}
+
 export function createHttpRuntime(options = {}) {
   const config = options.config || loadConfig(options.env);
   const apiClient = options.apiClient || new TFlexApiClient({ config });
@@ -41,6 +73,7 @@ export function createHttpRuntime(options = {}) {
     );
     res.setHeader("Access-Control-Expose-Headers", "MCP-Session-Id");
     res.setHeader("Vary", "Origin");
+    res.setHeader("Cache-Control", "no-store");
     if (req.method === "OPTIONS") {
       res.sendStatus(204);
       return;
@@ -73,10 +106,7 @@ export function createHttpRuntime(options = {}) {
       res.json({
         status: "ready",
         api_base_url: apiClient.baseUrl.href,
-        dataset: manifest.dataset,
-        generated_at: manifest.generated_at,
-        counts: manifest.counts,
-        graph_counts: graphManifest.counts
+        ...normalizedRuntimeSummary(manifest, graphManifest)
       });
     } catch (error) {
       res.status(503).json({
@@ -92,8 +122,12 @@ export function createHttpRuntime(options = {}) {
 
     try {
       if (!entry) {
-        if (requestedSessionId || !isInitializeRequest(req.body)) {
-          jsonRpcError(res, 400, -32000, "Bad Request: missing, invalid or expired MCP session");
+        if (requestedSessionId) {
+          jsonRpcError(res, 404, -32001, "Session not found");
+          return;
+        }
+        if (!isInitializeRequest(req.body)) {
+          jsonRpcError(res, 400, -32000, "Bad Request: MCP initialization is required");
           return;
         }
 
@@ -121,8 +155,12 @@ export function createHttpRuntime(options = {}) {
 
   const handleEstablishedSession = async (req, res) => {
     const sessionId = req.headers["mcp-session-id"];
-    if (typeof sessionId !== "string" || !sessions.has(sessionId)) {
-      jsonRpcError(res, 400, -32000, "Bad Request: missing, invalid or expired MCP session");
+    if (typeof sessionId !== "string") {
+      jsonRpcError(res, 400, -32000, "Bad Request: MCP-Session-Id is required");
+      return;
+    }
+    if (!sessions.has(sessionId)) {
+      jsonRpcError(res, 404, -32001, "Session not found");
       return;
     }
     try {
