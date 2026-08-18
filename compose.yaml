@@ -1,0 +1,12 @@
+services:
+  t-flex-cad-17-mcp:
+    build: .
+    image: t-flex-cad-17-mcp:local
+    restart: unless-stopped
+    environment:
+      TFLEX_API_BASE_URL: https://raw.githubusercontent.com/KrickmanC/T-FLEX-CAD-17-API/main/
+      MCP_HOST: 0.0.0.0
+      MCP_PORT: 3000
+      MCP_ALLOWED_ORIGINS: "*"
+    ports:
+      - "${MCP_PORT:-3000}:3000"
