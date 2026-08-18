@@ -2,6 +2,7 @@ services:
   - type: web
     name: t-flex-cad-17-mcp
     runtime: docker
+    plan: free
     dockerfilePath: ./Dockerfile
     healthCheckPath: /healthz
     autoDeploy: true
