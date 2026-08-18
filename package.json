@@ -1,0 +1,23 @@
+{
+  "name": "t-flex-cad-17-mcp",
+  "version": "1.0.0",
+  "description": "Read-only MCP server for the T-FLEX CAD 17 documentation knowledge/API layer.",
+  "type": "module",
+  "private": true,
+  "license": "GPL-3.0-only",
+  "engines": {
+    "node": ">=20.11"
+  },
+  "scripts": {
+    "start": "node src/http.js",
+    "start:stdio": "node src/stdio.js",
+    "test": "node --test --test-reporter=spec",
+    "smoke:live": "node scripts/smoke-live.js",
+    "check": "node --check src/tflex-api.js && node --check src/server.js && node --check src/stdio.js && node --check src/http.js && node --check test/smoke.test.js && node --check scripts/smoke-live.js"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "1.26.0",
+    "express": "5.1.0",
+    "zod": "3.25.76"
+  }
+}

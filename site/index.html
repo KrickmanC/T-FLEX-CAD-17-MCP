@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="T-FLEX CAD 17 MCP — документация, состояние knowledge/API layer и диагностика MCP runtime.">
+  <title>T-FLEX CAD 17 MCP</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="./" aria-label="T-FLEX CAD 17 MCP">T-FLEX <span>CAD 17</span> MCP</a>
+    <nav aria-label="Основная навигация">
+      <a href="#status">Статус</a>
+      <a href="#tools">Инструменты</a>
+      <a href="#run">Запуск</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="eyebrow">MODEL CONTEXT PROTOCOL · READ ONLY</div>
+      <h1>MCP-доступ к базе знаний<br>T-FLEX CAD 17</h1>
+      <p class="lead">Отдельный MCP-слой для поиска API-символов, документации и карты возможностей. Канонические данные остаются в <code>T-FLEX-CAD-17-API</code>.</p>
+      <div class="architecture" aria-label="Архитектура">
+        <div class="node"><strong>MCP-клиент</strong><span>Claude, ChatGPT, IDE, агент</span></div>
+        <div class="arrow">→</div>
+        <div class="node active"><strong>MCP runtime</strong><span>stdio / Streamable HTTP</span></div>
+        <div class="arrow">→</div>
+        <div class="node"><strong>API layer</strong><span>GitHub Pages · JSONL / MD</span></div>
+      </div>
+      <div class="notice"><strong>Граница GitHub Pages:</strong> Pages публикует эту статическую панель и документацию. Node.js-процесс MCP запускается локально либо в контейнерном runtime.</div>
+    </section>
+
+    <section id="status" class="section">
+      <div class="section-heading">
+        <div>
+          <div class="eyebrow">LIVE DIAGNOSTICS</div>
+          <h2>Состояние слоя данных</h2>
+        </div>
+        <button id="refresh" class="button" type="button">Обновить</button>
+      </div>
+
+      <div class="status-grid">
+        <article class="status-card">
+          <span class="status-label">Knowledge/API layer</span>
+          <div class="status-line"><span id="api-dot" class="dot pending"></span><strong id="api-status">Проверка…</strong></div>
+          <p id="api-detail">Загрузка manifest.json</p>
+        </article>
+        <article class="status-card">
+          <span class="status-label">Documentation dataset</span>
+          <strong id="dataset">—</strong>
+          <p id="generated">—</p>
+        </article>
+        <article class="status-card metric"><span>Assemblies</span><strong id="assemblies">—</strong></article>
+        <article class="status-card metric"><span>Types</span><strong id="types">—</strong></article>
+        <article class="status-card metric"><span>Symbols</span><strong id="symbols">—</strong></article>
+        <article class="status-card metric"><span>CHM topics</span><strong id="topics">—</strong></article>
+        <article class="status-card metric"><span>Graph nodes</span><strong id="nodes">—</strong></article>
+        <article class="status-card metric"><span>Graph edges</span><strong id="edges">—</strong></article>
+      </div>
+    </section>
+
+    <section id="tools" class="section">
+      <div class="eyebrow">TOOL CATALOG</div>
+      <h2>Инструменты MCP</h2>
+      <div class="tool-grid">
+        <article><code>tflex_manifest</code><p>Манифест набора данных и графа.</p></article>
+        <article><code>tflex_search_symbols</code><p>Поиск типов, методов, свойств и событий.</p></article>
+        <article><code>tflex_get_symbol</code><p>Получение символа по точному идентификатору.</p></article>
+        <article><code>tflex_search_docs</code><p>Полнотекстовый поиск по индексу CHM.</p></article>
+        <article><code>tflex_search_capabilities</code><p>Поиск по карте прикладных возможностей.</p></article>
+        <article><code>tflex_get_document</code><p>Чтение разрешённого документа по относительному пути.</p></article>
+      </div>
+    </section>
+
+    <section id="run" class="section split">
+      <div>
+        <div class="eyebrow">LOCAL / CONTAINER RUNTIME</div>
+        <h2>Запуск MCP</h2>
+        <h3>stdio</h3>
+        <pre><code>npm install
+npm run start:stdio</code></pre>
+        <h3>Streamable HTTP</h3>
+        <pre><code>npm install
+npm start
+# endpoint: http://localhost:3000/mcp</code></pre>
+        <h3>Docker</h3>
+        <pre><code>docker build -t t-flex-cad-17-mcp .
+docker run --rm -p 3000:3000 t-flex-cad-17-mcp</code></pre>
+      </div>
+
+      <div class="runtime-check">
+        <div class="eyebrow">OPTIONAL RUNTIME CHECK</div>
+        <h2>Проверка развёрнутого процесса</h2>
+        <label for="runtime-url">Базовый URL runtime</label>
+        <div class="input-row">
+          <input id="runtime-url" type="url" placeholder="https://mcp.example.com" autocomplete="off">
+          <button id="check-runtime" class="button" type="button">Проверить</button>
+        </div>
+        <div id="runtime-result" class="result muted">Введите URL сервиса, у которого доступны <code>/healthz</code> и <code>/readyz</code>.</div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <span>T-FLEX CAD 17 MCP</span>
+    <span>Read-only adapter over T-FLEX-CAD-17-API</span>
+  </footer>
+</body>
+</html>
